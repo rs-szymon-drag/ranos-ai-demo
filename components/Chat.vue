@@ -95,7 +95,7 @@ const getName = (doc) => {
 .chat
     display: block
     width: 100%
-    height: calc(100vh - 150px - 90px)
+    height: calc(100vh - 170px - 90px)
     background-color: var(--gray)
     border-top: 1px solid rgba(0,0,0,0.05)
     border-bottom: 1px solid rgba(0,0,0,0.05)

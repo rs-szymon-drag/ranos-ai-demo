@@ -3,6 +3,15 @@ div(
     class="prompt"
 )
     div(
+        class="loader"
+    )
+        v-progress-linear(
+            v-if="loading"
+            color="var(--orange)"
+            height="4"
+            indeterminate
+        )
+    div(
         class="premade-questions"
     )
         div(
@@ -71,6 +80,7 @@ const ask = (question) => {
 <style lang="sass" scoped>
 .prompt
     height: 120px
+    position: relative
     .premade-questions
         height: 65px
         overflow-x: scroll
@@ -89,4 +99,11 @@ const ask = (question) => {
             grid-template-columns: 1fr 100px
             height: 100%
             grid-gap: 24px
+
+.loader
+    position: absolute
+    top: 0
+    left: 0
+    width: 100%
+    height: auto
 </style>
