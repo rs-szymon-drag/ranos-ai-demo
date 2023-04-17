@@ -71,11 +71,19 @@ const modes = ref([
     {
         name: "pdf-2",
         label: "Second",
+        results: 5,
+        new: true,
+    },
+    {
+        name: "pdf-3",
+        label: "Largest chunks",
+        results: 3,
         new: true,
     },
     {
         name: "pdf-1",
         label: "First",
+        results: 7,
     },
 ])
 
@@ -95,10 +103,9 @@ const generateAnswer = async (question) => {
         method: "post",
         body: {
             question: question,
-            history: history.value
-                .filter((h) => !h.system)
-                .map((h) => ({ question: h.question, answer: h.answer })),
+            history: history.value.filter((h) => !h.system),
             namespace: modes.value[mode.value].name,
+            returnedResults: modes.value[mode.value].results,
         },
     })
     console.log({

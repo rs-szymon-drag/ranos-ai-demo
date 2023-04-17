@@ -64,10 +64,10 @@ export const callVectorDBQAChain = async (
     query,
     index,
     namespace,
-    history = []
+    history = [],
+    returnedResults = 5
 ) => {
     const question = query
-    const returnedResults = 5
     const questionEmbedding = await embedQuery(question, embeddings)
 
     const docs = await similarityVectorSearch(

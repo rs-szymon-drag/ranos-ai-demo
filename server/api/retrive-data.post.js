@@ -8,12 +8,15 @@ export default defineEventHandler(async (event) => {
     const index = pineconeClient.Index(import.meta.env.PINECONE_INDEX_NAME)
     const query = body.question
     const namespace = body.namespace ?? "pdf-1"
+    const history = body.history ?? []
+    const returnedResults = body.returnedResults ?? 5
 
     const response = await callVectorDBQAChain(
         query,
         index,
         namespace,
-        body.history
+        history,
+        returnedResults
     )
     return response
 })
