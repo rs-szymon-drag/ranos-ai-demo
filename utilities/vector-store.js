@@ -67,7 +67,7 @@ export const callVectorDBQAChain = async (
     history = []
 ) => {
     const question = query
-    const returnedResults = 3
+    const returnedResults = 5
     const questionEmbedding = await embedQuery(question, embeddings)
 
     const docs = await similarityVectorSearch(

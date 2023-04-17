@@ -13,12 +13,38 @@ div
         class="grid"
     )
         div(
-            style="height: 70px"
+            class="header"
+            style="height: 90px"
         )
+            div
+                div(
+                    style="text-transform: uppercase; font-size: 12px; color: rgba(0,0,0,0.9); margin-bottom: 2px; margin-left: 16px; font-weight: 600"
+                ) Model
+
+                v-tabs(
+                    v-model="mode"
+                    color="var(--blue)"
+                )
+                    v-tab(
+                        v-for="(mode, index) in modes"
+                        :key="index"
+                    ) 
+                        span {{ mode.label }}
+                        v-chip(
+                            style="margin-left: 10px"
+                            size="x-small"
+                            v-if="mode.new"
+                            color="var(--blue)"
+                        ) new
+            
             div(
-                class="report"
-                @click="openReport"
-            ) Loaded report
+                class="wrapper"
+            )
+                v-btn(
+                    variant="outlined" 
+                    color="var(--blue)"
+                    @click="openReport"
+                ) Open report
 
         div
             Chat(
@@ -39,6 +65,19 @@ import axios from "@/clients/axios-client"
 const history = ref([])
 const loading = ref(false)
 
+const mode = ref(null)
+const modes = ref([
+    {
+        name: "pdf-2",
+        label: "Second",
+        new: true,
+    },
+    {
+        name: "pdf-1",
+        label: "First",
+    },
+])
+
 const file = ref(null)
 
 const handleFileUpload = (e) => {
@@ -55,7 +94,8 @@ const generateAnswer = async (question) => {
         method: "post",
         body: {
             question: question,
-            history: history.value,
+            history: history.value.filter((h) => !h.system),
+            namespace: modes.value[mode.value].name,
         },
     })
     console.log({
@@ -81,9 +121,28 @@ const importData = async () => {
         },
     })
 }
+
+watch(mode, (value) => {
+    if (value !== null) {
+        history.value.push({
+            system: true,
+            question: `Switched to ${modes.value[value].label} model`,
+        })
+    }
+})
 </script>
 
 <style lang="sass" scoped>
+.header
+    display: flex
+    align-items: flex-end
+    justify-content: space-between
+    padding: 0 24px
+    .wrapper
+        height: 100%
+        display: flex
+        align-items: center
+        margin: 0 24px
 .report
     display: inline-flex
     align-items: center
