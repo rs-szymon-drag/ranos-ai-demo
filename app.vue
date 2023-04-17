@@ -22,6 +22,7 @@ div
                 ) Model
 
                 v-tabs(
+                    :disabled="loading"
                     v-model="mode"
                     color="var(--blue)"
                 )
@@ -94,7 +95,9 @@ const generateAnswer = async (question) => {
         method: "post",
         body: {
             question: question,
-            history: history.value.filter((h) => !h.system),
+            history: history.value
+                .filter((h) => !h.system)
+                .map((h) => ({ question: h.question, answer: h.answer })),
             namespace: modes.value[mode.value].name,
         },
     })
